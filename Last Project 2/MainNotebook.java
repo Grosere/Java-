@@ -23,18 +23,56 @@ import java.util.Arrays;
 public class MainNotebook {
     private static Notebook filtrNotebook = new Notebook(null, 0, 0, "null", "null");
 
-    public static void main(String[] args) {
-        Notebook notebook1 = new Notebook("MacBook", 8, 1000, "Mac_OS_13", "Белый");
-        Notebook notebook2 = new Notebook("HP", 16, 10000, "Windows 11", "Черный");
-        Notebook notebook3 = new Notebook("Mac_Air 2021", 8, 1000, "Mac_OS_14", "Стальной");
-        Notebook notebook4 = new Notebook("Asus", 32, 100000, "Windows 10", "Синий");
-        Notebook notebook5 = new Notebook("Acer", 16, 1000, "None", "Серебрянный");
-        Notebook notebook6 = new Notebook("Lenovo", 32, 500, "Windows 10", "Красный");
+    /**
+     * @param notebooks
+     */
+    public static void findNotebooksWithFiltr(Set<Notebook> notebooks) {
 
-        Set<Notebook> notebooks = new HashSet<>(
-                Arrays.asList(notebook1, notebook2, notebook3, notebook4, notebook5, notebook6));
+        Set<Notebook> result = new HashSet<>();
+        for (Notebook note : notebooks) {
+            if (filtrNotebook.getRAM_GBite() <= note.getRAM_GBite() || filtrNotebook.getRAM_GBite() == 0) {
+                if (filtrNotebook.getHDDValue() <= note.getHDDValue() || filtrNotebook.getHDDValue() == 0) {
+                    if (filtrNotebook.getOSName().equals(note.getOSName())
+                            || filtrNotebook.getOSName().equals("null")) {
+                        if (filtrNotebook.getColor().equals(note.getColor())
+                                || filtrNotebook.getColor().equals("null")) {
+                            result.add(note);
+                        }
+                    }
+                }
+            }
+        }
+        if (result.isEmpty()) {
+            System.out.println("Такого ноутбука - нет");
+        } else {
+            System.out.println("Вам могут подойти следующие ноутбуки:");
+            printAllNotebook(result);
+        }
 
-        filter(notebooks);
+        System.out.println("Конец поиска.");
+    }
+
+    public static void printAllNotebook(Set<Notebook> notebooks) {
+        System.out.println("В нашем интернет-магазине содержатся следующие ноутбуки:");
+        System.out.println();
+
+        for (Notebook note : notebooks) {
+            System.out.println(note);
+        }
+        System.out.println();
+    }
+
+    public static void information() {
+        System.out.println(
+                "Есди вы хотите подобрать определнный ноутбук, то введите цифру, соответствующую необходимому критерию:");
+        System.out.println("1 - RAM");
+        System.out.println("2 - Объем HDD");
+        System.out.println("3 - Операционная система");
+        System.out.println("4 - Цвет ");
+        System.out.println("5 - вы можете посмотреть все ноутбуки, которые у нас есть");
+        System.out.println("6 - очистить фильтр");
+        System.out.println("7 - еще раз посмотреть инструкцию");
+        System.out.println("8 - результат поиска");
     }
 
     public static void filter(Set<Notebook> notebooks) {
@@ -83,7 +121,7 @@ public class MainNotebook {
                     System.out.println("Введите следующую команду");
                     command = sc.nextLine();
                     break;
-                case ("7"):
+                case ("6"):
                     filtrNotebook.setRAM_GBite(0);
                     filtrNotebook.setHDDValue(0);
                     filtrNotebook.setOSName("null");
@@ -91,11 +129,11 @@ public class MainNotebook {
                     System.out.println(filtrNotebook);
                     System.out.println("Введите следующую команду");
                     command = sc.nextLine();
-                case ("9"):
+                case ("7"):
                     information();
                     command = sc.nextLine();
                     break;
-                case ("0"):
+                case ("8"):
                     endOfFiltr = false;
                     break;
                 default:
@@ -110,55 +148,17 @@ public class MainNotebook {
         findNotebooksWithFiltr(notebooks);
     }
 
-    /**
-     * @param notebooks
-     */
-    public static void findNotebooksWithFiltr(Set<Notebook> notebooks) {
+    public static void main(String[] args) {
+        Notebook notebook1 = new Notebook("MacBook", 8, 512, "Mac_OS_13", "Белый");
+        Notebook notebook2 = new Notebook("HP", 16, 1000, "Windows 11", "Черный");
+        Notebook notebook3 = new Notebook("Mac_Air 2021", 8, 256, "Mac_OS_14", "Стальной");
+        Notebook notebook4 = new Notebook("Asus", 32, 128, "Windows 10", "Синий");
+        Notebook notebook5 = new Notebook("Acer", 16, 500, "None", "Серебрянный");
+        Notebook notebook6 = new Notebook("Lenovo", 32, 500, "Windows 10", "Красный");
 
-        Set<Notebook> result = new HashSet<>();
-        for (Notebook note : notebooks) {
-            if (filtrNotebook.getRAM_GBite() <= note.getRAM_GBite() || filtrNotebook.getRAM_GBite() == 0) {
-                if (filtrNotebook.getHDDValue() <= note.getHDDValue() || filtrNotebook.getHDDValue() == 0) {
-                    if (filtrNotebook.getOSName().equals(note.getOSName())
-                            || filtrNotebook.getOSName().equals("null")) {
-                        if (filtrNotebook.getColor().equals(note.getColor())
-                                || filtrNotebook.getColor().equals("null")) {
-                            result.add(note);
-                        }
-                    }
-                }
-            }
-        }
-        if (result.isEmpty()) {
-            System.out.println("Такого ноутбука - нет");
-        } else {
-            System.out.println("Вам могут подойти следующие ноутбуки:");
-            printAllNotebook(result);
-        }
+        Set<Notebook> notebooks = new HashSet<>(
+                Arrays.asList(notebook1, notebook2, notebook3, notebook4, notebook5, notebook6));
 
-        System.out.println("Конец поиска.");
-    }
-
-    public static void printAllNotebook(Set<Notebook> notebooks) {
-        System.out.println("В нашем интернет-магазине содержатся следующие ноутбуки:");
-        System.out.println();
-
-        for (Notebook note : notebooks) {
-            System.out.println(note);
-        }
-        System.out.println();
-    }
-
-    public static void information() {
-        System.out.println(
-                "Есди вы хотите подобрать определнный ноутбук, то введите цифру, соответствующую необходимому критерию:");
-        System.out.println("1 - RAM");
-        System.out.println("2 - Объем HDD");
-        System.out.println("3 - Операционная система");
-        System.out.println("4 - Цвет ");
-        System.out.println("5 - вы можете посмотреть все ноутбуки, которые у нас есть");
-        System.out.println("7 - очистить фильтр");
-        System.out.println("9 - еще раз посмотреть инструкцию");
-        System.out.println("0 - результат поиска");
+        filter(notebooks);
     }
 }
